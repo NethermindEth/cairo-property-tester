@@ -6,7 +6,8 @@ package «property-testing» {
 }
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "0c4163fd9970c28032641a1b7dc78188cda8a0ce"
+  "https://github.com/leanprover-community/mathlib4.git"@"0c4163fd9970c28032641a1b7dc78188cda8a0ce"
+
 
 require verification from git
   "https://github.com/starkware-libs/formal-proofs.git"/"lean4"

@@ -149,19 +149,19 @@ def wrappedCheck (p: Prop) [SlimCheck.Testable p]: IO PUnit :=
 --   Monad.toBind.bind (toIO i) (SlimCheck.Testable.checkIO)
 
 
-∀ prog: Prog, do
+-- ∀ prog: Prog, do
   --write prog to file
   --(mem, trace) ← exec vm on file
   --trace is valid on mem for prog
 
-open SlimCheck in
-open Decorations in
-/-- Run a test suite for `p` and throw an exception if `p` does not hold. -/
-def Testable.check (p : Prop) (cfg : Configuration := {}) [Testable p] : IO PUnit := do
-  match ← Testable.checkIO p cfg with
-  | TestResult.success _ => if !cfg.quiet then IO.println "Success"
-  | TestResult.gaveUp n => if !cfg.quiet then IO.println s!"Gave up {n} times"
-  | TestResult.failure _ xs n => throw (IO.userError $ Testable.formatFailure "Found problems!" xs n)
+-- open SlimCheck in
+-- open Decorations in
+-- /-- Run a test suite for `p` and throw an exception if `p` does not hold. -/
+-- def Testable.check (p : Prop) (cfg : Configuration := {}) [Testable p] : IO PUnit := do
+--   match ← Testable.checkIO p cfg with
+--   | TestResult.success _ => if !cfg.quiet then IO.println "Success"
+--   | TestResult.gaveUp n => if !cfg.quiet then IO.println s!"Gave up {n} times"
+--   | TestResult.failure _ xs n => throw (IO.userError $ Testable.formatFailure "Found problems!" xs n)
   
 
 -- #eval SlimCheck.Testable.check (∀ z : Instr, z.apUpdate.fst → z.apUpdate.snd) {

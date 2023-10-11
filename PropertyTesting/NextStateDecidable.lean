@@ -196,9 +196,9 @@ def instruction_asserts_decidable [Field F] [DecidableEq F] (i: Instruction) (me
       if Instruction.op0 i mem s = s.pc + i.size ∧ i.dst mem s = s.fp
       then exact .isTrue (by aesop)
       else exact .isFalse (by aesop)
-    | true, true, false =>  exact .isTrue (by aesop)
-    | true, false, true =>  exact .isTrue (by aesop)
-    | true, true, true =>  exact .isTrue (by aesop)
+    | true, true, false => exact .isTrue (by aesop)
+    | true, false, true => exact .isTrue (by aesop)
+    | true, true, true => exact .isTrue (by aesop)
 
 def instruction_nextState_decidable [Field F] [DecidableEq F] (i: Instruction) (mem: F → F) (s t: RegisterState F): Decidable (i.NextState mem s t) := by
   unfold Instruction.NextState
@@ -208,8 +208,10 @@ def instruction_nextState_decidable [Field F] [DecidableEq F] (i: Instruction) (
   have asserts: _ := instruction_asserts_decidable i mem s
   apply instDecidableAnd
 
+set_option maxHeartbeats 0
 def trace_head_decidable (s t: UInt64 × UInt64 × UInt64) (h_fmem: fieldMem mem = some fMem): Decidable (NextState (memGet fMem) (uint64sToRegisterState s) (uint64sToRegisterState t)) := by
   unfold NextState
+  have h_dec: _ := instruction_nextState_decidable (instructionAtPc mem s.1) (memGet fMem) (uint64sToRegisterState s) (uint64sToRegisterState t)
   by_cases (instructionAtPc mem s.1).NextState (memGet fMem) (uint64sToRegisterState s) (uint64sToRegisterState t)
   case pos => exact .isTrue ⟨instructionAtPc mem s.fst, (by {
     simp [h]
@@ -221,8 +223,8 @@ def trace_head_decidable (s t: UInt64 × UInt64 × UInt64) (h_fmem: fieldMem mem
           injection h_fmem with h'
           exact h'.symm
         rewrite [h_fmem_empty]
-        -- simp only
-        sorry
+        simp only
+        -- sorry
       | cons memHead memTail memTail_ih => sorry
   })⟩
   case neg => exact .isFalse (by {

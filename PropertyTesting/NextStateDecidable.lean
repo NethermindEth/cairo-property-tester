@@ -55,7 +55,14 @@ lemma fieldMem_range (h: fieldMem mem = some fmem) : fmem.all (λ (loc, _) => lo
     rewrite [←h]
     intro h_map
     simp at h_map ⊢
-    sorry
+    rcases h_map with ⟨a,b,h_map⟩
+    unfold uint64ToFelt at h_map
+    rcases a with ⟨a, h_size⟩
+    simp [*] at h_map
+    rewrite [←h_map.2.1]
+    simp [ZMod.val_nat_cast]
+    have h': a < PRIME := Nat.lt_of_lt_of_le h_size uint64Size_le_PRIME
+    simp [Nat.mod_eq_of_lt, *]
   . simp [h_cond] at h
 
 

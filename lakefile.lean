@@ -15,3 +15,7 @@ require verification from git
 lean_lib «PropertyTesting» {
   -- add any library configuration options here
 }
+
+lean_exe «Testing» {
+  root:=`Main
+}

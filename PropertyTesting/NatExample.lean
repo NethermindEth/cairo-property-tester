@@ -22,17 +22,17 @@ instance : SlimCheck.SampleableExt MyType :=
     })⟩
 
 -- example false prop
--- #eval SlimCheck.Testable.check (∀ a b : MyType, a.low ≤ b.low → a.high ≤ b.high) {
---   numInst := 100,
---   maxSize := 1000,
---   numRetries := 100,
---   traceDiscarded := false,
---   traceSuccesses := false,
---   traceShrink := false,
---   traceShrinkCandidates := false,
---   randomSeed := none,
---   quiet := false
--- }
+#eval SlimCheck.Testable.check (∀ a b : MyType, a.low ≤ b.low → a.high ≤ b.high) {
+  numInst := 100,
+  maxSize := 1000,
+  numRetries := 100,
+  traceDiscarded := false,
+  traceSuccesses := false,
+  traceShrink := false,
+  traceShrinkCandidates := false,
+  randomSeed := none,
+  quiet := false
+}
 
 #eval SlimCheck.Testable.check (∀ a b : MyType, a.high ≤ b.low → a.low ≤ b.high) {
   numInst := 100,
